@@ -18,27 +18,36 @@ export default class App extends Component {
       employee_count:'',
       max_customers:'',
     };
-
-    SecureStore.getItemAsync('store_name').then((value) =>{
-      if(value){
-        this.state.store_name = value;
+    /*
+    SecureStore.setItemAsync('store_name', "toString({store_name})");
+    var mm = SecureStore.getItemAsync('store_name').then((value) =>{
+      if(mm.store_name!=undefined){
+        this.setState({store_name:value});
+      }
+      Alert.alert(typeof(mm.store_name))
+    });
+    this.setState({store_name:mm.store_name})
+    SecureStore.getItemAsync('store_size').then((value) =>{
+      if(value!=undefined){
+        this.setState({store_size:value});
       }
     });
     SecureStore.getItemAsync('location').then((value) =>{
-      if(value){
-        this.state.location = value;
+      if(value!=undefined){
+        this.setState({location:value});
       }
     });
     SecureStore.getItemAsync('employee_count').then((value) =>{
       if(value){
-        this.state.employee_count = value;
+        this.setState({employee_count:value});
       }
     });
     SecureStore.getItemAsync('max_customers').then((value) =>{
       if(value){
-        this.state.max_customers = value;
+        this.setState({max_customers:value});
       }
     });
+    */
   }
 
   onRegister() {
@@ -48,6 +57,20 @@ export default class App extends Component {
     SecureStore.setItemAsync('location', toString({location}));
     SecureStore.setItemAsync('employee_count', toString({employee_count}));
     SecureStore.setItemAsync('max_customers', toString({max_customers}));
+    fetch('https://http418-safely-app.herokuapp.com/new_store', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        store_name: this.state.store_name,
+        store_size: this.state.store_size,
+        location: this.state.location,
+        employee_count: this.state.employee_count,
+        max_customers: this.state.max_customers,
+      }),
+    });
     Alert.alert(`${store_name}`, `${max_customers} Customer limit set`);
   }
 
