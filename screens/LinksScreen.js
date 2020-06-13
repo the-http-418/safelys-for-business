@@ -12,7 +12,8 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      customer_count: '',
+      customer_count: 0,
+      yoyo:"ererer",
     };
     SecureStore.getItemAsync('customer_count').then((value) =>{
       this.state.customer_count = parseInt(value);
@@ -23,19 +24,22 @@ export default class App extends Component {
   }
 
 
-  addCount() {
-    this.state.customer_count +=1;
+  empty() {
+    this.setState({customer_count:0});
     const { customer_count } = this.state;
-    Alert.alert( `${customer_count} Customers`);
+  }
+
+  addCount() {
+    const { customer_count } = this.state;
+    this.setState({customer_count:parseInt(customer_count)+1});
   }
 
   lessCount() {
+    const { customer_count } = this.state;
     if(this.state.customer_count != 0){
-      this.state.customer_count -=1;
+      this.setState({customer_count:parseInt(customer_count)-1});
     }
     SecureStore.setItemAsync('customer_count', toString(this.state.customer_count));
-    const { customer_count } = this.state;
-    Alert.alert( `${customer_count} Customers`);
   }
 
   onRegister() {
@@ -50,19 +54,21 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
       <ScrollView style={styles.containerScroll} contentContainerStyle={styles.contentContainer}>
-        <TextInput
-          value={this.state.customer_count}
-          style={styles.input}
-        />
+        <Text style={styles.inputminus}>{this.state.customer_count}</Text>
         <Button
           title={'+'}
-          style={styles.inputplus}
+          style={styles.inputminus}
           onPress={this.addCount.bind(this)}
-        />
+        ></Button>
         <Button
           title={'-'}
           style={styles.inputminus}
           onPress={this.lessCount.bind(this)}
+        />
+        <Button
+          title={'Clear Count'}
+          style={styles.inputminus}
+          onPress={this.empty.bind(this)}
         />
         </ScrollView>
       </View>
@@ -82,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
   },
   inputplus: {
-    width: '50%',
+    width: 500,
     height: 44,
     padding: 10,
     borderWidth: 1,
@@ -92,12 +98,12 @@ const styles = StyleSheet.create({
   },
   inputminus: {
     width: 200,
-    height: 44,
+    height: 200,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
     marginBottom: 10,
-    color: 'black'
+    color: 'black',
   },
   contentContainer: {
     paddingTop: 30,

@@ -18,12 +18,36 @@ export default class App extends Component {
       employee_count:'',
       max_customers:'',
     };
+
+    SecureStore.getItemAsync('store_name').then((value) =>{
+      if(value){
+        this.state.store_name = value;
+      }
+    });
+    SecureStore.getItemAsync('location').then((value) =>{
+      if(value){
+        this.state.location = value;
+      }
+    });
+    SecureStore.getItemAsync('employee_count').then((value) =>{
+      if(value){
+        this.state.employee_count = value;
+      }
+    });
+    SecureStore.getItemAsync('max_customers').then((value) =>{
+      if(value){
+        this.state.max_customers = value;
+      }
+    });
   }
 
   onRegister() {
-    const { store_name, max_customers } = this.state;
-    SecureStore.setItemAsync('customer_count', '0');
-    SecureStore.deleteItemAsync('customer_count');
+    const { store_name, store_size, location, employee_count, max_customers} = this.state;
+    SecureStore.setItemAsync('store_name', toString({store_name}));
+    SecureStore.setItemAsync('store_size', toString({store_size}));
+    SecureStore.setItemAsync('location', toString({location}));
+    SecureStore.setItemAsync('employee_count', toString({employee_count}));
+    SecureStore.setItemAsync('max_customers', toString({max_customers}));
     Alert.alert(`${store_name}`, `${max_customers} Customer limit set`);
   }
 
