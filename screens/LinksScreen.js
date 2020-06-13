@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   inputminus: {
     width: 200,
-    height: 200,
+    height: 50,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',

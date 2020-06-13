@@ -1,10 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Alert, Button, TextInput} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
+import * as Location from 'expo-location';
 
 
 export default class App extends Component {
