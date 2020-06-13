@@ -22,7 +22,8 @@ export default class App extends Component {
 
   onRegister() {
     const { store_name, max_customers } = this.state;
-
+    SecureStore.setItemAsync('customer_count', '0');
+    SecureStore.deleteItemAsync('customer_count');
     Alert.alert(`${store_name}`, `${max_customers} Customer limit set`);
   }
 

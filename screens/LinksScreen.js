@@ -15,26 +15,33 @@ export default class App extends Component {
       customer_count: '',
     };
     SecureStore.getItemAsync('customer_count').then((value) =>{
-      //Alert.alert(value);
+      this.state.customer_count = parseInt(value);
+      if(!this.state.customer_count){
+        this.state.customer_count = 0;
+      }
     });
   }
 
 
   addCount() {
-    SecureStore.getItemAsync('customer_count').then((value) =>{
-      var num = parseInt(value);
-      num+=1;
-      SecureStore.setItemAsync('customer_count', toString(num));
-      Alert.alert(num);
-    });
+    this.state.customer_count +=1;
+    const { customer_count } = this.state;
+    Alert.alert( `${customer_count} Customers`);
+  }
 
-    //const { customer_count } = this.state;
-    //`${ customer_count }` += 1;
-    //Alert.alert( `${customer_count} Customer limit set`);
+  lessCount() {
+    if(this.state.customer_count != 0){
+      this.state.customer_count -=1;
+    }
+    SecureStore.setItemAsync('customer_count', toString(this.state.customer_count));
+    const { customer_count } = this.state;
+    Alert.alert( `${customer_count} Customers`);
   }
 
   onRegister() {
     const { customer_count } = this.state;
+    this.state.customer_count +=1;
+    SecureStore.setItemAsync('customer_count', toString(this.state.customer_count));
     //`${ customer_count }` += 1;
     Alert.alert( `${customer_count} Customer limit set`);
   }
@@ -44,18 +51,18 @@ export default class App extends Component {
       <View style={styles.container}>
       <ScrollView style={styles.containerScroll} contentContainerStyle={styles.contentContainer}>
         <TextInput
-          value={this.state.store_name}
+          value={this.state.customer_count}
           style={styles.input}
         />
         <Button
           title={'+'}
           style={styles.inputplus}
-          onPress={this.addCount}
+          onPress={this.addCount.bind(this)}
         />
         <Button
           title={'-'}
           style={styles.inputminus}
-          onPress={this.onRegister.bind(this)}
+          onPress={this.lessCount.bind(this)}
         />
         </ScrollView>
       </View>
