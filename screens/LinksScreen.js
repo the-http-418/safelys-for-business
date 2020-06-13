@@ -22,11 +22,6 @@ export default class App extends Component {
         this.state.customer_count = 0;
       }
     });
-    SecureStore.getItemAsync('store_name').then((value) =>{
-      if(value){
-        this.state.store_name = value;
-      }
-    });
   }
 
   componentDidMount(){
@@ -34,10 +29,14 @@ export default class App extends Component {
   }
 
   async getMovies(){
+    SecureStore.getItemAsync('store_name').then((value) =>{
+      if(value){
+        this.state.store_name = value;
+      }
+    });
     if(this.state.old_count != this.state.customer_count){
       const { customer_count } = this.state;
       this.setState({old_count:parseInt(customer_count)});
-      Alert.alert("Change")
       fetch('https://http418-safely-app.herokuapp.com/update_count', {
         method: 'POST',
         headers: {
@@ -49,6 +48,7 @@ export default class App extends Component {
           store_name: this.state.store_name,
         }),
       });
+      Alert.alert("Change",this.state.store_name)
     }
   }
 
@@ -69,14 +69,6 @@ export default class App extends Component {
       this.setState({customer_count:parseInt(customer_count)-1});
     }
     SecureStore.setItemAsync('customer_count', toString(this.state.customer_count));
-  }
-
-  onRegister() {
-    const { customer_count } = this.state;
-    this.state.customer_count +=1;
-    SecureStore.setItemAsync('customer_count', toString(this.state.customer_count));
-    //`${ customer_count }` += 1;
-    Alert.alert( `${customer_count} Customer limit set`);
   }
 
   render() {

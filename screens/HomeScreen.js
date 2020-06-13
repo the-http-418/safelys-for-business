@@ -18,15 +18,11 @@ export default class App extends Component {
       employee_count:'',
       max_customers:'',
     };
-    /*
-    SecureStore.setItemAsync('store_name', "toString({store_name})");
-    var mm = SecureStore.getItemAsync('store_name').then((value) =>{
-      if(mm.store_name!=undefined){
+    SecureStore.getItemAsync('store_name').then((value) =>{
+      if(true){
         this.setState({store_name:value});
       }
-      Alert.alert(typeof(mm.store_name))
     });
-    this.setState({store_name:mm.store_name})
     SecureStore.getItemAsync('store_size').then((value) =>{
       if(value!=undefined){
         this.setState({store_size:value});
@@ -47,16 +43,15 @@ export default class App extends Component {
         this.setState({max_customers:value});
       }
     });
-    */
   }
 
   onRegister() {
     const { store_name, store_size, location, employee_count, max_customers} = this.state;
-    SecureStore.setItemAsync('store_name', toString({store_name}));
-    SecureStore.setItemAsync('store_size', toString({store_size}));
-    SecureStore.setItemAsync('location', toString({location}));
-    SecureStore.setItemAsync('employee_count', toString({employee_count}));
-    SecureStore.setItemAsync('max_customers', toString({max_customers}));
+    SecureStore.setItemAsync('store_name', store_name);
+    SecureStore.setItemAsync('store_size', store_size);
+    SecureStore.setItemAsync('location', location);
+    SecureStore.setItemAsync('employee_count', employee_count);
+    SecureStore.setItemAsync('max_customers', max_customers);
     fetch('https://http418-safely-app.herokuapp.com/new_store', {
       method: 'POST',
       headers: {
