@@ -1,11 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
-import React, { Component, useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { Component, useState, useEffect } from 'react';
+import { StyleSheet, Text, View , TouchableOpacity} from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Alert, Button, TextInput} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import * as Location from 'expo-location';
+import Constants from 'expo-constants';
 
 
 export default class App extends Component {
@@ -18,6 +19,8 @@ export default class App extends Component {
       location:'',
       employee_count:'',
       max_customers:'',
+      longitude:null,
+      latitude:null,
     };
     SecureStore.getItemAsync('store_name').then((value) =>{
       if(true){
@@ -44,15 +47,27 @@ export default class App extends Component {
         this.setState({max_customers:value});
       }
     });
+    SecureStore.getItemAsync('longitude').then((value) =>{
+      if(value){
+        this.setState({longitude:value});
+      }
+    });
+    SecureStore.getItemAsync('latitude').then((value) =>{
+      if(value){
+        this.setState({latitude:value});
+      }
+    });
   }
 
   onRegister() {
-    const { store_name, store_size, location, employee_count, max_customers} = this.state;
+    const { store_name, store_size, location, employee_count, max_customers, longitude, latitude} = this.state;
     SecureStore.setItemAsync('store_name', store_name);
     SecureStore.setItemAsync('store_size', store_size);
     SecureStore.setItemAsync('location', location);
     SecureStore.setItemAsync('employee_count', employee_count);
     SecureStore.setItemAsync('max_customers', max_customers);
+    SecureStore.setItemAsync('longitude', longitude;
+    SecureStore.setItemAsync('latitude', latitide);
     fetch('https://http418-safely-app.herokuapp.com/new_store', {
       method: 'POST',
       headers: {
@@ -65,10 +80,25 @@ export default class App extends Component {
         location: this.state.location,
         employee_count: this.state.employee_count,
         max_customers: this.state.max_customers,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
       }),
     });
     Alert.alert(`${store_name}`, `${max_customers} Customer limit set`);
   }
+
+  findCoordinates = () => {
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      const longitude = JSON.stringify(position.coords.longitude);
+      this.setState({ longitude });
+      const latitude = JSON.stringify(position.coords.latitude)
+      this.setState({latitude});
+    },
+    error => console.log(error.message),
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+  );
+};
 
   render() {
     return (
@@ -92,6 +122,11 @@ export default class App extends Component {
           placeholder={'Location'}
           style={styles.input}
         />
+        <TouchableOpacity style={styles.inpssut} onPress={this.findCoordinates}>
+    					<Text style={styles.input}>Get Current Location</Text>
+              <Text>Latitude: {this.state.latitude}</Text>
+    					<Text>Longitude: {this.state.longitude}</Text>
+    		</TouchableOpacity>
         <TextInput
           value={this.state.employee_count}
           onChangeText={(employee_count) => this.setState({ employee_count })}

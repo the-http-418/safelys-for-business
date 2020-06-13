@@ -5,6 +5,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import OffersScreen from '../screens/OffersScreen';
+import OrdersScreen from '../screens/OrdersScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -21,7 +22,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Info"
         component={HomeScreen}
         options={{
-          title: 'Business Information',
+          title: 'Info',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
         }}
       />
@@ -29,7 +30,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Counter"
         component={LinksScreen}
         options={{
-          title: 'Customer Counter',
+          title: 'Counter',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
         }}
       />
@@ -37,8 +38,16 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Offers"
         component={OffersScreen}
         options={{
-          title: 'Special Offers',
+          title: 'Offers',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-pricetags" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Orders"
+        component={OrdersScreen}
+        options={{
+          title: 'Orders',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-cart" />,
         }}
       />
     </BottomTab.Navigator>
@@ -56,5 +65,7 @@ function getHeaderTitle(route) {
       return 'Counter';
     case 'Offers':
       return 'Run Promotions';
+    case 'Orders':
+      return 'Customer Orders';
   }
 }
