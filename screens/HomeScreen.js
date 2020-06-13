@@ -28,6 +28,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <ScrollView style={styles.containerScroll} contentContainerStyle={styles.contentContainer}>
         <TextInput
           value={this.state.store_name}
           onChangeText={(store_name) => this.setState({ store_name })}
@@ -64,12 +65,17 @@ export default class App extends Component {
           style={styles.input}
           onPress={this.onRegister.bind(this)}
         />
+        </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  containerScroll: {
+    flex: 1,
+    backgroundColor: '#ecf0f1',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -84,5 +90,8 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginBottom: 10,
     color: 'black'
+  },
+  contentContainer: {
+    paddingTop: 30,
   },
 });
