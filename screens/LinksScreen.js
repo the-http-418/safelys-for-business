@@ -48,7 +48,7 @@ export default class App extends Component {
           store_name: this.state.store_name,
         }),
       });
-      Alert.alert("Change",this.state.store_name)
+      //Alert.alert("Change",this.state.store_name)
     }
   }
 
