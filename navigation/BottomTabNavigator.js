@@ -55,6 +55,6 @@ function getHeaderTitle(route) {
     case 'Counter':
       return 'Counter';
     case 'Offers':
-      return 'Special Offers';
+      return 'Run Promotions';
   }
 }
