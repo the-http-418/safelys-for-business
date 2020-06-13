@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Alert, Button, TextInput} from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 
 export default class App extends Component {

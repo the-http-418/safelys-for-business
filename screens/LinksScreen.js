@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Alert, Button, TextInput} from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 
 export default class App extends Component {
@@ -11,112 +12,87 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      username: '',
-      password: '',
+      customer_count: '',
     };
+    SecureStore.getItemAsync('customer_count').then((value) =>{
+      //Alert.alert(value);
+    });
   }
 
-  onLogin() {
-    const { username, password } = this.state;
 
-    Alert.alert('Credentials', `${username} + ${password}`);
+  addCount() {
+    SecureStore.getItemAsync('customer_count').then((value) =>{
+      var num = parseInt(value);
+      num+=1;
+      SecureStore.setItemAsync('customer_count', toString(num));
+      Alert.alert(num);
+    });
+
+    //const { customer_count } = this.state;
+    //`${ customer_count }` += 1;
+    //Alert.alert( `${customer_count} Customer limit set`);
+  }
+
+  onRegister() {
+    const { customer_count } = this.state;
+    //`${ customer_count }` += 1;
+    Alert.alert( `${customer_count} Customer limit set`);
   }
 
   render() {
     return (
       <View style={styles.container}>
+      <ScrollView style={styles.containerScroll} contentContainerStyle={styles.contentContainer}>
         <TextInput
-          value={this.state.username}
-          onChangeText={(username) => this.setState({ username })}
-          placeholder={'Username'}
+          value={this.state.store_name}
           style={styles.input}
         />
-        <TextInput
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
-          placeholder={'Password'}
-          secureTextEntry={true}
-          style={styles.input}
-        />
-
         <Button
-          title={'Login'}
-          style={styles.input}
-          onPress={this.onLogin.bind(this)}
+          title={'+'}
+          style={styles.inputplus}
+          onPress={this.addCount}
         />
+        <Button
+          title={'-'}
+          style={styles.inputminus}
+          onPress={this.onRegister.bind(this)}
+        />
+        </ScrollView>
       </View>
     );
   }
 }
 
-
-function LinksScreen() {
-
-  return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-      <OptionButton
-        icon="md-school"
-        label="Read the Expo documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
-      />
-
-      <OptionButton
-        icon="md-compass"
-        label="Read the React Navigation documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
-      />
-
-      <OptionButton
-        icon="ios-chatboxes"
-        label="Ask a question on the forums"
-        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
-        isLastOption
-      />
-    </ScrollView>
-  );
-}
-
-function OptionButton({ icon, label, onPress, isLastOption }) {
-  return (
-    <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.optionIconContainer}>
-          <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
-        </View>
-        <View style={styles.optionTextContainer}>
-          <Text style={styles.optionText}>{label}</Text>
-        </View>
-      </View>
-    </RectButton>
-  );
-}
-
 const styles = StyleSheet.create({
+  containerScroll: {
+    flex: 1,
+    backgroundColor: '#ecf0f1',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fafafa',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+  },
+  inputplus: {
+    width: '50%',
+    height: 44,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 10,
+    color: 'black'
+  },
+  inputminus: {
+    width: 200,
+    height: 44,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 10,
+    color: 'black'
   },
   contentContainer: {
-    paddingTop: 15,
-  },
-  optionIconContainer: {
-    marginRight: 12,
-  },
-  option: {
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  optionText: {
-    fontSize: 15,
-    alignSelf: 'flex-start',
-    marginTop: 1,
+    paddingTop: 30,
   },
 });
