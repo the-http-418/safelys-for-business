@@ -13,7 +13,8 @@ export default class App extends Component {
 
     this.state = {
       customer_count: 0,
-      yoyo:"ererer",
+      store_name:"NOT DEFINED",
+      old_count: 0,
     };
     SecureStore.getItemAsync('customer_count').then((value) =>{
       this.state.customer_count = parseInt(value);
@@ -21,12 +22,40 @@ export default class App extends Component {
         this.state.customer_count = 0;
       }
     });
+    SecureStore.getItemAsync('store_name').then((value) =>{
+      if(value){
+        this.state.store_name = value;
+      }
+    });
   }
+
+  componentDidMount(){
+    this.timer = setInterval(()=> this.getMovies(), 1000)
+  }
+
+  async getMovies(){
+    if(this.state.old_count != this.state.customer_count){
+      const { customer_count } = this.state;
+      this.setState({old_count:parseInt(customer_count)});
+      Alert.alert("Change")
+      fetch('https://http418-safely-app.herokuapp.com/update_count', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customer_count: this.state.customer_count,
+          store_name: this.state.store_name,
+        }),
+      });
+    }
+  }
+
 
 
   empty() {
     this.setState({customer_count:0});
-    const { customer_count } = this.state;
   }
 
   addCount() {
