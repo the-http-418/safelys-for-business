@@ -1,4 +1,4 @@
-# Safelys
+# **Safelys** - Business App
 Safelys helps you maintin social distance when in public places such as stores and restaurants.
 
 ## Features
@@ -9,7 +9,7 @@ Safelys helps you maintin social distance when in public places such as stores a
 - Place order directly to the store
 
 ## Demo
-Video: https://youtu.be/g5aRIBAVdXo
+Video: https://youtu.be/g5aRIBAVdXo  
 APKs: https://drive.google.com/drive/folders/10KRDEZBux6RekQXbZM_OYHcq6cqvLgGM?usp=sharing
 
 ## Codebase
