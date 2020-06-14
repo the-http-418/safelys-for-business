@@ -66,8 +66,8 @@ export default class App extends Component {
     SecureStore.setItemAsync('location', location);
     SecureStore.setItemAsync('employee_count', employee_count);
     SecureStore.setItemAsync('max_customers', max_customers);
-    SecureStore.setItemAsync('longitude', longitude;
-    SecureStore.setItemAsync('latitude', latitide);
+    SecureStore.setItemAsync('longitude', longitude);
+    SecureStore.setItemAsync('latitude', latitude);
     fetch('https://http418-safely-app.herokuapp.com/new_store', {
       method: 'POST',
       headers: {
@@ -80,8 +80,8 @@ export default class App extends Component {
         location: this.state.location,
         employee_count: this.state.employee_count,
         max_customers: this.state.max_customers,
-        latitude: this.state.latitude,
         longitude: this.state.longitude,
+        latitude: this.state.latitude,
       }),
     });
     Alert.alert(`${store_name}`, `${max_customers} Customer limit set`);

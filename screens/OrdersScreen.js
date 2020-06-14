@@ -12,10 +12,10 @@ const {store_name,customer_count,max_customers,store_size,employee_count} = shop
 
   return (
     <View style={styles.item}>
-      <Text style={styles.maintitle}>{store_name}</Text>
-        <Text style={styles.title}>Filled Capacity : {customer_count} \ {max_customers} </Text>
-        <Text style={styles.title}>Store Area (sq.ft) : {store_size} </Text>
-        <Text style={styles.title}>Employee Count : {employee_count} </Text>
+      <Text style={styles.maintitle}>Suresh Singh</Text>
+        <Text style={styles.title}>15 Items</Text>
+        <Text style={styles.title}>Rs. 1578</Text>
+        <Text style={styles.title}>Aplha Sunrise Apartments</Text>
     </View>
   );
 }
@@ -58,38 +58,30 @@ export default class StoreListScreen extends Component {
       });
     }
   componentDidMount() {
-  this.timer = setInterval(()=> this.getStores(), 300000)
+  //this.timer = setInterval(()=> this.getStores(), 300000)
   }
-
-    findCoordinates = () => {
-		navigator.geolocation.getCurrentPosition(
-			position => {
-        const longitude = JSON.stringify(position.coords.longitude);
-				this.setState({ longitude });
-        const latitude = JSON.stringify(position.coords.latitude)
-        this.setState({latitude});
-			},
-			error => Alert.alert(error.message),
-			{ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-		);
-	};
 
 render()
 {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
     <Text style={styles.checkwelcome}>Pending Orders</Text>
-    <TouchableOpacity onPress={this.findCoordinates}>
-					<Text style={styles.welcome}>Find My Coords?</Text>
-					<Text style={styles.welcome}>Longitude: {this.state.longitude}</Text>
-          <Text style={styles.welcome}>Latitude: {this.state.latitude}</Text>
-				</TouchableOpacity>
     <SafeAreaView style={styles.container}>
       <FlatList
         data={this.state.dataSource}
         renderItem={({ item }) => <Item shop={item} />}
         keyExtractor={item => item.shop_name}
-      />
+      >
+      </FlatList>
+      <Text>Suresh Singh</Text>
+        <Text style={styles.titlsse}>15 Items</Text>
+        <Text style={styles.titless}>Rs. 1578</Text>
+        <Text style={styles.titlsse}>Aplha Sunrise Apartments</Text>
+<Text></Text>
+        <Text>Sanskriti Pattanayak</Text>
+          <Text style={styles.titlsse}>10 Items</Text>
+          <Text style={styles.titless}>Rs. 483</Text>
+          <Text style={styles.titlsse}>Grove Street</Text>
     </SafeAreaView>
     </ScrollView>
   );
